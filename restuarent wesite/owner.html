@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .card {
+            width: 300px;
+            padding: 20px;
+            text-align: center;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px;
+        }
+        .card img {
+            max-width: 100px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        .card h2 {
+            margin-bottom: 10px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .order-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .order-item {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .accept-button, .decline-button {
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .accept-button {
+            background-color: #28a745;
+            color: #ffffff;
+        }
+        .decline-button {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="path_to_menu_editor_image" alt="Menu Editor">
+        <h2>Menu Editor</h2>
+        <a href="menu-editor.html" class="button">Go to Menu Editor</a>
+    </div>
+
+    <div class="card">
+        <img src="path_to_order_book_image" alt="Order Book">
+        <h2>Order Book</h2>
+        <a href="order-confirmation.html" class="button">Go to Order Book</a>
+    </div>
+
+    <div id="order-list">
+        <h2>Order Confirmation</h2>
+        <ul class="order-list">
+            <!-- Sample order item -->
+            <li class="order-item">
+                <div>
+                    <strong>Order #1</strong>
+                    <p>Details of the order...</p>
+                </div>
+                <div class="order-actions">
+                    <button class="accept-button">Accept</button>
+                    <button class="decline-button">Decline</button>
+                </div>
+            </li>
+            <!-- Repeat this structure for each order -->
+        </ul>
+    </div>
+</body>
+</html>

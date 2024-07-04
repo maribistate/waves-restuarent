@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmations</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="bg-dark text-white">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <div class="logo">
+                <img src="https://www.federalistpig.com/static/logo.png" alt="Federalist Pig Logo">
+            </div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link text-white">Home</a></li>
+                    <li class="nav-item"><a href="order.html" class="nav-link text-white">Order Online</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <h1 class="text-center">Order Confirmations</h1>
+        <div id="order-container" class="text-center">
+            <!-- Orders will be dynamically added here -->
+        </div>
+    </main>
+
+    <script>
+        // Get the paymentIntentId from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentIntentId = urlParams.get('paymentIntentId');
+
+        if (paymentIntentId) {
+            // Simulate an order object
+            const orders = [{ id: 'order1', paymentIntentId }];
+
+            function loadOrders() {
+                const container = document.getElementById('order-container');
+                orders.forEach(order => {
+                    const orderDiv = document.createElement('div');
+                    orderDiv.className = 'order mb-3';
+                    orderDiv.innerHTML = `
+                        <p>Order ID: ${order.id}</p>
+                        <button class="btn btn-success m-2" onclick="confirmOrder('${order.paymentIntentId}', 'accept')">Accept</button>
+                        <button class="btn btn-danger m-2" onclick="confirmOrder('${order.paymentIntentId}', 'decline')">Decline</button>
+                    `;
+                    container.appendChild(orderDiv);
+                });
+            }
+
+            async function confirmOrder(paymentIntentId, action) {
+                try {
+                    const response = await fetch('http://localhost:3000/order-confirmation', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ paymentIntentId, action })
+                    });
+
+                    const result = await response.text();
+                    alert(result);
+                    if (action === 'accept') {
+                        alert('Order confirmed');
+                    }
+                } catch (error) {
+                    alert(`Error: ${error.message}`);
+                }
+            }
+
+            // Load orders on page load
+            window.onload = loadOrders;
+        } else {
+            document.getElementById('order-container').innerHTML = '<p>No payment intent ID provided.</p>';
+        }
+    </script>
+</body>
+</html>
+

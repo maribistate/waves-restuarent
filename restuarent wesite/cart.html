@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Federalist Pig</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .card {
+            margin-bottom: 20px;
+        }
+        .card img {
+            height: 150px;
+            object-fit: cover;
+        }
+        .total-bar {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .total-bar h4, .total-bar h3 {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-dark text-white">
+        <div class="container py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <img src="https://www.federalistpig.com/static/logo.png" alt="Federalist Pig Logo" class="img-fluid">
+                </div>
+                <nav>
+                    <ul class="nav">
+                        <li class="nav-item"><a href="index.html" class="nav-link text-white">Home</a></li>
+                        <li class="nav-item"><a href="order.html" class="nav-link text-white">Order Online</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-5">
+        <h1 class="text-center mb-4">Your Cart</h1>
+        <div id="cartItems" class="row"></div>
+        <div class="mt-4 total-bar">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Total Price: <span id="totalAmount">0</span> ₹</h4>
+                    <h4>Service Charge (2%): <span id="serviceCharge">0</span> ₹</h4>
+                    <h3>Final Total: <span id="finalTotal">0</span> ₹</h3>
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-end">
+                    <button class="btn btn-primary" onclick="goToOrderOptions()">Next</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Federalist Pig. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function displayCart() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            cartItemsDiv.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                const serviceCharge = itemTotal * 0.02;
+                total += itemTotal + serviceCharge;
+                cartItemsDiv.innerHTML += `
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <img src="${item.img}" class="card-img-top" alt="${item.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.name}</h5>
+                                <p class="card-text">Price: ${item.price} ₹</p>
+                                <p class="card-text">Quantity: ${item.quantity}</p>
+                                <p class="card-text">Total: ${itemTotal.toFixed(2)} ₹</p>
+                                <p class="card-text">Service Charge (2%): ${serviceCharge.toFixed(2)} ₹</p>
+                                <p class="card-text">Special Instructions: ${item.specialInstructions}</p>
+                                <button class="btn btn-danger btn-sm" onclick="removeFromCart(${index})">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            const totalServiceCharge = total * 0.02;
+            const finalTotal = total;
+
+            document.getElementById('totalAmount').textContent = total.toFixed(2);
+            document.getElementById('serviceCharge').textContent = totalServiceCharge.toFixed(2);
+            document.getElementById('finalTotal').textContent = finalTotal.toFixed(2);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+
+        function goToOrderOptions() {
+            window.location.href = 'order-options.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', displayCart);
+    </script>
+</body>
+</html>

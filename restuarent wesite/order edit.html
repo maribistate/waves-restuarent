@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Online - Federalist Pig</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="bg-dark text-white">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <div class="logo">
+                <img src="https://www.federalistpig.com/static/logo.png" alt="Federalist Pig Logo">
+            </div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link text-white">Home</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white">Menus</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white">Catering</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white">BBQ Box</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white">Supper Club</a></li>
+                    <li class="nav-item"><a href="order.html" class="nav-link text-white btn btn-primary">Order Online</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="container my-5">
+            <h1 class="text-center">Order Online</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" onclick="showModal('butter chicken', 'butter chicken.jpg', '420.00 ₹')">
+                        <img src="butter chicken.jpg" class="card-img-top" alt="Butter Chicken" style="width: 200px; height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">butter chicken</h5>
+                            <p class="card-text">420.00 ₹</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" onclick="showModal('cheese Sandwich', 'grilled cheese.jpg', '120.00 ₹')">
+                        <img src="grilled cheese.jpg" class="card-img-top" alt="Grilled Cheese" style="width: 200px; height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">cheese Sandwich</h5>
+                            <p class="card-text">120.00 ₹</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm" onclick="showModal('aaloo parotha', 'aloo paratha.jpg', '140.00 ₹')">
+                        <img src="aloo paratha.jpg" class="card-img-top" alt="Aloo Paratha" style="width: 200px; height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">aaloo parotha</h5>
+                            <p class="card-text">140.00 ₹</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Federalist Pig. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">Order Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="itemImage" src="" alt="" class="img-fluid mb-3" style="width: 200px; height: 200px; object-fit: cover;">
+                    <h5 id="itemName"></h5>
+                    <p id="itemPrice"></p>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" min="0" value="0" oninput="showAddToCart()">
+                    </div>
+                    <div class="form-group">
+                        <label for="specialInstructions">Special Instructions</label>
+                        <textarea class="form-control" id="specialInstructions" rows="3"></textarea>
+                    </div>
+                    <button id="addToCartBtn" class="btn btn-primary" onclick="addToCart()" style="display: none;">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function showModal(name, img, price) {
+            document.getElementById('itemName').textContent = name;
+            document.getElementById('itemImage').src = img;
+            document.getElementById('itemPrice').textContent = price;
+            document.getElementById('quantity').value = 0;
+            document.getElementById('specialInstructions').value = '';
+            document.getElementById('addToCartBtn').style.display = 'none';
+            $('#orderModal').modal('show');
+        }
+
+        function showAddToCart() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            document.getElementById('addToCartBtn').style.display = quantity > 0 ? 'block' : 'none';
+        }
+
+        function addToCart() {
+            const name = document.getElementById('itemName').textContent;
+            const price = parseFloat(document.getElementById('itemPrice').textContent.replace(' ₹', ''));
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const specialInstructions = document.getElementById('specialInstructions').value;
+
+            if (quantity > 0) {
+                cart.push({ name, price, quantity, specialInstructions });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                $('#orderModal').modal('hide');
+                showCartButton();
+            } else {
+                alert('Please enter a valid quantity.');
+            }
+        }
+
+        function showCartButton() {
+            let cartButton = document.getElementById('cartButton');
+            if (!cartButton) {
+                cartButton = document.createElement('button');
+                cartButton.id = 'cartButton';
+                cartButton.className = 'btn btn-warning';
+                cartButton.innerText = 'Cart';
+                cartButton.onclick = function () {
+                    window.location.href = 'cart.html';
+                };
+                document.querySelector('header .container').appendChild(cartButton);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (cart.length > 0) {
+                showCartButton();
+            }
+        });
+    </script>
+</body>
+</html>

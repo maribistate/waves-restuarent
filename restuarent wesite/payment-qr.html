@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment QR Code - Federalist Pig</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+</head>
+<body>
+    <header class="bg-dark text-white">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <div class="logo">
+                <img src="https://www.federalistpig.com/static/logo.png" alt="Federalist Pig Logo">
+            </div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="index.html" class="nav-link text-white">Home</a></li>
+                    <li class="nav-item"><a href="order.html" class="nav-link text-white">Order Online</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container my-5 text-center">
+        <h1>Scan to Pay</h1>
+        <div>
+            <canvas id="qrCode"></canvas>
+        </div>
+        <button class="btn btn-primary mt-4" onclick="confirmOrder()">Confirm Order</button>
+    </main>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const paymentIntentId = getQueryParam('paymentIntentId');
+        const totalAmount = getQueryParam('totalAmount');
+        const serviceCharge = getQueryParam('serviceCharge');
+
+        function generateQRCode(id, data) {
+            const qr = new QRious({
+                element: document.getElementById(id),
+                value: data,
+                size: 200
+            });
+        }
+
+        // Assuming a UPI URL format for GPay
+        generateQRCode('qrCode', `upi://pay?pa=owner@bank&am=${totalAmount}`);
+
+        function confirmOrder() {
+            fetch('http://localhost:3000/order-confirmation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ paymentIntentId, action: 'accept', totalAmount, serviceCharge })
+            }).then(response => response.text()).then(result => {
+                alert(result);
+                window.location.href = 'order-confirmations.html';
+            }).catch(error => {
+                alert(`Error: ${error.message}`);
+            });
+        }
+    </script>
+</body>
+</html>

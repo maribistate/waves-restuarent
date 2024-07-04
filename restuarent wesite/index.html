@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waves Restaurant</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="bg-dark text-white">
+        <div class="container d-flex justify-content-between align-items-center py-3">
+            <div class="logo">
+                <img src="Waves logo.png" alt="Waves Restaurant Logo">
+            </div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a href="#" class="nav-link text-white">Menus</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white">Catering</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white">Specials</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-white">Events</a></li>
+                    <li class="nav-item"><a href="order.html" class="nav-link text-white btn btn-primary">Order Online</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero text-center text-white d-flex flex-column justify-content-center align-items-center">
+            <div class="container">
+                <h1>Welcome to Waves Restaurant</h1>
+                <p>Traditional Indian food made in-house, always.</p>
+            </div>
+        </section>
+        <section class="articles container my-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <article class="bg-white p-3 shadow-sm mb-4">
+                        <h2>Latest Specials</h2>
+                        <p>Check out our rotating specialty dishes and limited drops.</p>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="bg-white p-3 shadow-sm mb-4">
+                        <h2>Events</h2>
+                        <p>Join us for exclusive events that showcase our culinary expertise.</p>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="bg-white p-3 shadow-sm mb-4">
+                        <h2>Monthly Subscription</h2>
+                        <p>Subscribe to enjoy an exclusive tasting menu featuring traditional Indian flavors.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section class="about text-white text-center d-flex flex-column justify-content-center align-items-center" id="about">
+            <div class="container">
+                <h2>Why Our Restaurant is the Best</h2>
+                <p>At Waves Restaurant, we believe in crafting the finest traditional Indian food with an unwavering commitment to quality. Our secret lies in our house-made spices and slow-cooked dishes, prepared with a passion for perfection. Every bite promises a journey through a rich tapestry of flavors, making every meal an unforgettable experience. Come taste the difference that dedication makes.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2024 Waves Restaurant. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Scroll effect
+        window.addEventListener('scroll', function() {
+            const aboutSection = document.getElementById('about');
+            const yOffset = window.pageYOffset;
+
+            if (yOffset > 300) {
+                aboutSection.style.display = 'flex';
+            } else {
+                aboutSection.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
